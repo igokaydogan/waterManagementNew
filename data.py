@@ -39,7 +39,7 @@ def dataframe_to_dict(df: pd.DataFrame) -> dict:
 
 #"@dataclass(Frozen = False)
 class Data:
-    def __init__(self, coef_matrix : dict[(int,int) : float] = {}, current_state_matrix : dict[(int,int) : float] = {}, component_num = 0 , group_num = 0):
+    def __init__(self, coef_matrix : pd.DataFrame, current_state_matrix : pd.DataFrame, component_num = 0 , group_num = 0):
         #initialize an empty data
         self.coef_matrix = coef_matrix
         self.current_state_matrix = current_state_matrix
@@ -60,6 +60,14 @@ class Data:
     def set_group_number(self, coef_df):
         self.group_num = coef_df.shape[1]
 
+
+    def update_matrix_indices(self):
+        self.coef_matrix.index = ['c' + str(i) for i in self.coef_matrix.index]
+        self.current_state_matrix.index = ['c' + str(i) for i in self.current_state_matrix.index]
+
+        self.coef_matrix.columns = ['g' + str(i) for i in self.coef_matrix.columns]
+        self.current_state_matrix.columns = ['g' + str(i) for i in self.current_state_matrix.columns]
+
     def read_and_load(self, excel_file, coef_sheet_name, cur_state_sheet_name):
         coef_df = read_excel_to_dataframe(excel_file=excel_file, sheet_name= coef_sheet_name)
         current_state_df = read_excel_to_dataframe(excel_file=excel_file, sheet_name=cur_state_sheet_name)
@@ -69,6 +77,7 @@ class Data:
         self.set_component_number(coef_df)
         self.set_group_number(coef_df)
 
+        self.update_matrix_indices()
 
     def print_data_matrix(self, matrix_name = 'current_state'):
         if matrix_name == 'coef':
@@ -76,6 +85,9 @@ class Data:
 
         elif matrix_name == 'current_state':
             pprint(self.current_state_matrix)
+
+
+
 
 
     """done"""
