@@ -81,76 +81,8 @@ class Data:
     """done"""
 
 
-    def return_data_matrix(self, matrix_name = 'current_state'):
-        data_matrix = []
-        if matrix_name == 'coef':
-            for i in range(self.component_num):
-                current_row = []
-                for j in range(self.group_num):
-                    current_row.append(self.current_state_matrix[(i, j)])
-
-            data_matrix.append(current_row)
-
-        elif matrix_name == 'current_state':
-            for i in range(self.component_num):
-                current_row = []
-                for j in range(self.group_num):
-                    current_row.append(self.current_state_matrix[(i,j)])
-
-                data_matrix.append(current_row)
-
-            return data_matrix
-
     def calculate_max_possible_improvement_matrix(self, basic:list, intermediate:list, advanced: list, basic_UB, intermediate_UB, advanced_UB):
-        max_improvement_matrix = []
-        for i in range(self.component_num):
-            current_row = []
-            for j in range(self.group_num):
-                if i in basic:
-                    if self.current_state_matrix[(i, j)] <= 2:
-                        current_row.append(basic_UB - self.current_state_matrix[(i,j)])
-                    else:
-                        current_row.append(5 - self.current_state_matrix[(i,j)])
-                elif i in intermediate:
-                    if self.current_state_matrix[(i, j)] <= 2:
-                        current_row.append(intermediate_UB - self.current_state_matrix[(i,j)])
-                    else:
-                        current_row.append(5 - self.current_state_matrix[(i, j)])
-                elif i in advanced:
-                    if self.current_state_matrix[(i, j)] <= 1:
-                        current_row.append(advanced_UB - self.current_state_matrix[(i,j)])
-                    else:
-                        current_row.append(5 - self.current_state_matrix[(i,j)])
-            max_improvement_matrix.append(current_row)
-        return max_improvement_matrix
-
-
-    def cost_matrix_printer(self):
-        cost_matrix = []
-        # cost_matrix.append([0,1,2,3,4,5])
-        for i in range(6):
-            current_row = []
-            for j in range(6):
-                if j < i:
-                    # print(-1, end = ' ')
-                    current_row.append(-1)
-                else:
-                    # print(j**2 - i**2, end = ' ')
-                    current_row.append(j**2 - i**2)
-            cost_matrix.append(current_row)
-            # print()
-
-        # new_column = [0,1,2,3,4,5]
-        # for i in [1,2,3,4,5,6]:
-        #     cost_matrix[i].insert(0, new_column[i - 1])
-        # for row in cost_matrix:
-        #     print(row)
-
-        s = [[str(e) for e in row] for row in cost_matrix]
-        lens = [max(map(len, col)) for col in zip(*s)]
-        fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
-        table = [fmt.format(*row) for row in s]
-        print('\n'.join(table))
+        pass
 
 
 
